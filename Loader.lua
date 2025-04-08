@@ -20,7 +20,7 @@ function m:Init()
 	if disabled == true then
 
 	else
-		[[--print('lalalal')
+		--[[--print('lalalal')
 		local acc = 0
 		game:GetService("RunService").Heartbeat:Connect(function(DeltaTime)
 			acc += DeltaTime
