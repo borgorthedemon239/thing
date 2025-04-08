@@ -71,9 +71,9 @@ function m:Init()
 			task.spawn(function()
 				
 				local Profile = GameProfileStore:LoadProfileAsync(Key, "ForceLoad")
+				DataManager:OfflineWipe(p.UserId)
+        			task.wait(1)
 				--print(Profile)
-				Profile = {}
-				Profile:Release()
 				
 				local lowestFirst = false
 				local numbersShown = 100 -- Top 100 public
