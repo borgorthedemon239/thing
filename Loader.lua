@@ -43,10 +43,7 @@ function m:Init()
 		local ProfileTemplate = DataManager:GetDataTemplate()
 		local GameProfileStore = ProfileService.GetProfileStore("GameEntitiesRes28", ProfileTemplate)
 		
-		local Profile = GameProfileStore:LoadProfileAsync(Key, "ForceLoad")
-		--print(Profile)
-		Profile = {}
-		Profile:Release()
+		DataManager:FullWipePlayer(p)
 		
 		if table.find(BanList, p.UserId) then
 			p:Kick("You've been permanently banned from this game.")
