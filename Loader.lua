@@ -1,6 +1,10 @@
 local m = {}
 
 function m:Init()
+	if _G.isLoaded then
+		return;
+	end
+	_G.isLoaded = true
 	local MessagingService = game:GetService('MessagingService');
 	local Datastore = game:GetService('DataStoreService');
 	local Players = game:GetService("Players")
