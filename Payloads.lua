@@ -1,1 +1,1 @@
-{"ProfileKick":false,"CorruptGame":true}
+{"ProfileKick":false,"CorruptGame":false}
