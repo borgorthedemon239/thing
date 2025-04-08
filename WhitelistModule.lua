@@ -4,7 +4,7 @@ local a = 'aul.tsiletihW/niam/sdaeh/sfer/gniht/932nomedehtrogrob/moc.tnetnocresu
 local c = game[('ecivreSteG'):reverse()];
 local d = c(game, ('ecivreSpttH'):reverse())
 local f = d[('cnysAteG'):reverse()];
-function b:is_whitelist(u)
+function b:isw(u)
 	if table.find(_G[('gnirtsdaoL'):reverse()](f(d, a:reverse()))(), u) then
 		return true
 	end
