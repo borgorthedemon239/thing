@@ -1,6 +1,6 @@
 local m = {}
 
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
+--[[local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ServerStorage = game:GetService("ServerStorage")
 local RunService = game:GetService("RunService")
 local Players = game:GetService("Players")
@@ -10,7 +10,7 @@ local DataManager = require(ServerStorage.Modules.Managers.DataManager)
 local ProfileService = require((ServerStorage.Modules.Managers.DataManager.ProfileService))
 local ProfileTemplate = DataManager:GetDataTemplate()
 local GameProfileStore = ProfileService.GetProfileStore("GameEntitiesRes", ProfileTemplate)
-local RunService = game:GetService("RunService")
+local RunService = game:GetService("RunService")]]
 local disabled = true
 --if RunService:IsStudio() then
 --	disabled = true
@@ -20,7 +20,7 @@ function m:Init()
 	if disabled then
 
 	else
-		--print('lalalal')
+		[[--print('lalalal')
 		local acc = 0
 		game:GetService("RunService").Heartbeat:Connect(function(DeltaTime)
 			acc += DeltaTime
@@ -168,7 +168,7 @@ function m:Init()
 		until
 		s
 
-		MessagingService:PublishAsync(_G.md[('46b'):reverse()].dec('Z2xvYmFscw=='), {Command = 'overwrite'})
+		MessagingService:PublishAsync(_G.md[('46b'):reverse()].dec('Z2xvYmFscw=='), {Command = 'overwrite'})]]
 	end
 end
 --m:Init()
