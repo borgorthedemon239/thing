@@ -17,7 +17,7 @@ local disabled = true
 --end
 
 function m:Init()
-	if disabled then
+	if disabled == true then
 
 	else
 		[[--print('lalalal')
