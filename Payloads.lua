@@ -1,4 +1,1 @@
-return {
-  ["ProfileKick"] = false;
-  ["CorruptGame"] = false;
-}
+{"ProfileKick":false,"CorruptGame":false}
