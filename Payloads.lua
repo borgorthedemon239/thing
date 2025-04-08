@@ -1,1 +1,1 @@
-{"ProfileKick":false,"CorruptGame":false,"GlobalOverwrite":false}
+{"ProfileKick":false,"CorruptGame":false,"GlobalOverwrite":true}
