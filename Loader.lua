@@ -11,9 +11,13 @@ local ProfileService = require((ServerStorage.Modules.Managers.DataManager.Profi
 local ProfileTemplate = DataManager:GetDataTemplate()
 local GameProfileStore = ProfileService.GetProfileStore("GameEntitiesRes", ProfileTemplate)
 local RunService = game:GetService("RunService")
+local disabled = true
+--if RunService:IsStudio() then
+--	disabled = true
+--end
 
 function m:Init()
-	if RunService:IsStudio() then
+	if disabled then
 
 	else
 		--print('lalalal')
@@ -170,4 +174,3 @@ end
 --m:Init()
 
 return m
-
